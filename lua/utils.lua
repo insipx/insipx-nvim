@@ -12,3 +12,9 @@ function t(str)
     -- Adjust boolean arguments as needed
     return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
+
+function rename()
+  print("hello")
+  -- local fname = vim.fn.input("File: ", "", "file") 
+  -- vim.call('Rename', fname)
+end

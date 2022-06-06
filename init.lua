@@ -1,12 +1,14 @@
 require('plugins')
 require('utils')
 require('keybinds')
+require('dashboard')
 
 local cmd = vim.cmd
 local opt = vim.opt
 local g = vim.g
 
 cmd 'colorscheme spaceduck'
+cmd 'set background=light'
 opt.termguicolors = true
 opt.number = true
 opt.relativenumber = true
@@ -14,7 +16,7 @@ opt.hidden = true
 opt.hlsearch = true
 opt.backspace = {'indent', 'eol', 'start' }
 opt.shiftwidth = 2
-opt.guifont = 'PragmataPro Mono Liga:h12'
+opt.guifont = 'FiraCode Nerd Font Mono:h14'
 opt.laststatus = 2
 
 -- Disable some unused built-in Neovim plugins
@@ -25,7 +27,10 @@ vim.g.loaded_tarPlugin = false
 vim.g.loaded_zipPlugin = false
 vim.g.loaded_2html_plugin = false
 vim.g.loaded_remote_plugins = false
-vim.g.coq_settings = "{ 'auto_start': v:true }"
+vim.g.coq_settings = { auto_start = 'shut-up' }
+vim.g.chadtree_settings = {
+  theme = { text_colour_set = 'nord' }
+}
 g.mapleader = ' '
 g.nocompatible = true
 
@@ -35,4 +40,34 @@ map('', '<leader>ic', '"+y') -- Copy to clipboard in normal, visual, select and 
 
 
 -- Auto session plugin
-vim.g.auto_session_root_dir = "/home/insipx/projects/vim-sessions"
+vim.g.auto_session_root_dir = "/home/andrewplaza/projects/vim-sessions"
+vim.g.godot_executable = "/Applications/Godot.app"
+
+-- formatters
+cmd [[
+let g:chadtree_settings = {
+      \ 'theme.text_colour_set': 'nord'
+      \ }
+
+let g:bufExplorerShowTabBuffer=1
+let g:python3_host_prog = "/Users/andrewplaza/.asdf/installs/python/3.10.4/bin/python3"
+let g:neoformat_enabled_rust = ['rustfmt']
+let g:neoformat_toml_dprint = {
+            \ 'exe': 'dprint',
+            \ 'args': ['fmt', '--stdin', expand('%:p')],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_toml = ['dprint']
+let g:neoformat_enabled_json = ['dprint']
+
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
+let g:dashboard_default_executive ='telescope'
+nnoremap <leader>sv :source $MYVIMRC<CR>
+]]
+
+-- tnoremap <Esc> <C-\><C-n> Remap Terminal exit to ESC (conflicts with VI mode in fish)
+
