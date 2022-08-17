@@ -130,11 +130,11 @@ function statusline_config()
     cond = conditions.buffer_not_empty,
   }
 
-  ins_left {
-    'filename',
-    cond = conditions.buffer_not_empty,
-    color = { fg = colors.magenta, gui = 'bold' },
-  }
+--  ins_left {
+--    'filename',
+--    cond = conditions.buffer_not_empty,
+--    color = { fg = colors.magenta, gui = 'bold' },
+--  }
 
   ins_left { 'location' }
 
