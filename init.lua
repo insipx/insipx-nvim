@@ -1,12 +1,22 @@
-require('plugins')
-require('utils')
-require('keybinds')
-require('dashboard')
+require 'impatient'
+
+require 'utils'
+require 'keybinds'
+require 'dashboard_config'
 
 local cmd = vim.cmd
 local opt = vim.opt
 local g = vim.g
 
+
+g.loaded_python_provider = 0
+g.python3_host_prog = "/Users/andrewplaza/.asdf/installs/python/3.10.4/bin/python3"
+
+g.bufExplorerShowTabBuffer=1
+g.dashboard_default_executive ='telescope'
+
+
+cmd 'colorscheme darkblue'
 cmd 'colorscheme spaceduck'
 cmd 'set background=light'
 opt.termguicolors = true
@@ -40,34 +50,60 @@ map('', '<leader>ic', '"+y') -- Copy to clipboard in normal, visual, select and 
 
 
 -- Auto session plugin
-vim.g.auto_session_root_dir = "/home/andrewplaza/projects/vim-sessions"
 vim.g.godot_executable = "/Applications/Godot.app"
+
+-- Commands
+cmd [[command! WhatHighlight :call util#syntax_stack()]]
+cmd [[command! PackerInstall packadd packer.nvim | lua require('plugins').install()]]
+cmd [[command! PackerUpdate packadd packer.nvim | lua require('plugins').update()]]
+cmd [[command! PackerSync packadd packer.nvim | lua require('plugins').sync()]]
+cmd [[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]]
+cmd [[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]]
 
 -- formatters
 cmd [[
+let g:neoformat_enabled_rust = ['rustfmt']
+let g:neoformat_toml_dprint = {
+	    \ 'exe': 'dprint',
+	    \ 'args': ['fmt', '--stdin', expand('%:p')],
+	    \ 'stdin': 1,
+	    \ }
+let g:neoformat_enabled_toml = ['dprint']
+let g:neoformat_enabled_json = ['dprint']
 let g:chadtree_settings = {
       \ 'theme.text_colour_set': 'nord'
       \ }
-
-let g:bufExplorerShowTabBuffer=1
-let g:python3_host_prog = "/Users/andrewplaza/.asdf/installs/python/3.10.4/bin/python3"
-let g:neoformat_enabled_rust = ['rustfmt']
-let g:neoformat_toml_dprint = {
-            \ 'exe': 'dprint',
-            \ 'args': ['fmt', '--stdin', expand('%:p')],
-            \ 'stdin': 1,
-            \ }
-let g:neoformat_enabled_toml = ['dprint']
-let g:neoformat_enabled_json = ['dprint']
 
 augroup fmt
   autocmd!
   autocmd BufWritePre * undojoin | Neoformat
 augroup END
 
-let g:dashboard_default_executive ='telescope'
 nnoremap <leader>sv :source $MYVIMRC<CR>
 ]]
 
 -- tnoremap <Esc> <C-\><C-n> Remap Terminal exit to ESC (conflicts with VI mode in fish)
+local coq = require('coq')
+local lspconfig = require('lspconfig')
+lspconfig.gdscript.setup (coq.lsp_ensure_capabilities())
+lspconfig.rust_analyzer.setup (
+	coq.lsp_ensure_capabilities({
+	    settings = {
+	      ["rust-analyzer"] = {
+		procMacro = {
+		  enable = false
+		},
+		diagnostics = {
+		  disabled = {"unresolved-proc-macro"} 
+		},
+		checkOnSave = {
+		  command = "clippy"
+		}
+	      }
+	    }
+	})
+)
 
+-- vim.diagnostic.config({
+--  virtual_text = false,
+-- })

@@ -23,6 +23,13 @@ wk.register({
       k = { '<cmd>Bdelete<cr>', 		"close buffer"	      },
       a = { '<cmd>bufdo Bdelete<cr>',		"delete all buffers"  },
     },
+    s = {
+      name = "search/quickfix",
+      o = { "<cmd>copen<CR>",			"open the quickfix window" },
+      c = { "<cmd>ccl<CR>",			"close the quickfix window" },
+      n = { "<cmd>cn<CR>", 			"go to the next error in window" },
+      p = { "<cmd>cp<CR>", 			"go to previous error in window" },
+    },
     c = {
       name = "commands (OS)",
       n = { "<cmd>enew<cr>", 		        "new file"		},
