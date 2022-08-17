@@ -16,7 +16,7 @@ opt.hidden = true
 opt.hlsearch = true
 opt.backspace = {'indent', 'eol', 'start' }
 opt.shiftwidth = 2
-opt.guifont = 'FiraCode Nerd Font Mono:h14'
+opt.guifont = 'PragmataPro Mono Liga:h12'
 opt.laststatus = 2
 
 -- Disable some unused built-in Neovim plugins
@@ -40,8 +40,8 @@ map('', '<leader>ic', '"+y') -- Copy to clipboard in normal, visual, select and 
 
 
 -- Auto session plugin
-vim.g.auto_session_root_dir = "/home/andrewplaza/projects/vim-sessions"
-vim.g.godot_executable = "/Applications/Godot.app"
+vim.g.auto_session_root_dir = "/home/insipx/projects/vim-sessions"
+vim.g.godot_executable = "/nix/store/jbc1rl2gg72sy29p4rxl5qg53mf2778s-user-environment/bin/godot"
 
 -- formatters
 cmd [[
@@ -50,7 +50,7 @@ let g:chadtree_settings = {
       \ }
 
 let g:bufExplorerShowTabBuffer=1
-let g:python3_host_prog = "/Users/andrewplaza/.asdf/installs/python/3.10.4/bin/python3"
+let g:python3_host_prog = "/nix/store/1qahkcn00wmakmdwl1jg3vaz85q8jwff-user-environment/bin/python3"
 let g:neoformat_enabled_rust = ['rustfmt']
 let g:neoformat_toml_dprint = {
             \ 'exe': 'dprint',
