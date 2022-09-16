@@ -1,5 +1,4 @@
-require 'impatient'
-
+-- require 'impatient'
 require 'utils'
 require 'keybinds'
 require 'dashboard_config'
@@ -8,15 +7,12 @@ local cmd = vim.cmd
 local opt = vim.opt
 local g = vim.g
 
-
 g.loaded_python_provider = 0
-g.python3_host_prog = "/Users/andrewplaza/.asdf/installs/python/3.10.4/bin/python3"
 
-g.bufExplorerShowTabBuffer=1
-g.dashboard_default_executive ='telescope'
+g.bufExplorerShowTabBuffer = 1
+g.dashboard_default_executive = 'telescope'
 
-
-cmd 'colorscheme darkblue'
+-- cmd 'colorscheme darkblue'
 cmd 'colorscheme spaceduck'
 cmd 'set background=light'
 opt.termguicolors = true
@@ -24,10 +20,15 @@ opt.number = true
 opt.relativenumber = true
 opt.hidden = true
 opt.hlsearch = true
-opt.backspace = {'indent', 'eol', 'start' }
+opt.backspace = {'indent', 'eol', 'start'}
 opt.shiftwidth = 2
-opt.guifont = 'PragmataPro Mono Liga:h12'
+opt.guifont = 'PragmataPro Mono Liga:h14'
 opt.laststatus = 2
+opt.encoding = 'utf-8'
+opt.showtabline = 1
+opt.list = true
+-- opt.listchars:append "eol:↴"
+-- opt.listchars:append "space:⋅"
 
 -- Disable some unused built-in Neovim plugins
 vim.g.loaded_man = false
@@ -37,10 +38,8 @@ vim.g.loaded_tarPlugin = false
 vim.g.loaded_zipPlugin = false
 vim.g.loaded_2html_plugin = false
 vim.g.loaded_remote_plugins = false
-vim.g.coq_settings = { auto_start = 'shut-up' }
-vim.g.chadtree_settings = {
-  theme = { text_colour_set = 'nord' }
-}
+vim.g.coq_settings = {auto_start = 'shut-up'}
+vim.g.chadtree_settings = {theme = {text_colour_set = 'nord'}}
 g.mapleader = ' '
 g.nocompatible = true
 
@@ -48,10 +47,9 @@ g.nocompatible = true
 map('i', 'jk', '<esc>') -- remap esc
 map('', '<leader>ic', '"+y') -- Copy to clipboard in normal, visual, select and operator modes
 
-
 -- Auto session plugin
 vim.g.auto_session_root_dir = "/home/insipx/projects/vim-sessions"
-vim.g.godot_executable = "/nix/store/jbc1rl2gg72sy29p4rxl5qg53mf2778s-user-environment/bin/godot"
+vim.g.godot_executable = "/nix/store/h3drz27p8q64y560p893ghm3432pphsk-user-environment/bin/godot"
 
 -- Commands
 cmd [[command! WhatHighlight :call util#syntax_stack()]]
@@ -63,49 +61,39 @@ cmd [[command! PackerCompile packadd packer.nvim | lua require('plugins').compil
 
 -- formatters
 cmd [[
-let g:python3_host_prog = "/nix/store/1qahkcn00wmakmdwl1jg3vaz85q8jwff-user-environment/bin/python3"
-let g:neoformat_enabled_rust = ['rustfmt']
-let g:neoformat_toml_dprint = {
-	    \ 'exe': 'dprint',
-	    \ 'args': ['fmt', '--stdin', expand('%:p')],
-	    \ 'stdin': 1,
-	    \ }
-let g:neoformat_enabled_toml = ['dprint']
-let g:neoformat_enabled_json = ['dprint']
+let g:python3_host_prog = "/nix/store/r1w11gr97qx6pddvxqglq8fxn92kgjxi-user-environment/bin/python3"
 let g:chadtree_settings = {
       \ 'theme.text_colour_set': 'nord'
       \ }
-
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * undojoin | Neoformat
-augroup END
-
-nnoremap <leader>sv :source $MYVIMRC<CR>
 ]]
 
--- tnoremap <Esc> <C-\><C-n> Remap Terminal exit to ESC (conflicts with VI mode in fish)
 local coq = require('coq')
 local lspconfig = require('lspconfig')
-lspconfig.gdscript.setup (coq.lsp_ensure_capabilities())
-lspconfig.rust_analyzer.setup (
-	coq.lsp_ensure_capabilities({
-	    settings = {
-	      ["rust-analyzer"] = {
-		procMacro = {
-		  enable = false
-		},
-		diagnostics = {
-		  disabled = {"unresolved-proc-macro"} 
-		},
-		checkOnSave = {
-		  command = "clippy"
-		}
-	      }
-	    }
-	})
-)
+lspconfig.gdscript.setup(coq.lsp_ensure_capabilities())
+vim.diagnostic.config({virtual_text = false, virtual_lines = {only_current_line = true}})
 
--- vim.diagnostic.config({
---  virtual_text = false,
--- })
+-- Format on save
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local null_ls = require("null-ls")
+null_ls.setup({
+  -- you can reuse a shared lspconfig on_attach callback here
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({group = augroup, buffer = bufnr})
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({ bufnr = bufnr })
+        end
+      })
+    end
+  end,
+  sources = {
+    null_ls.builtins.formatting.lua_format.with({args = {"--tab-width", 2, "--indent-width", 2, "--column-limit", 120}}),
+    null_ls.builtins.formatting.dprint, 
+    null_ls.builtins.formatting.prettier, 
+    null_ls.builtins.completion.spell, 
+    null_ls.builtins.formatting.rustfmt.with({ disabled_filetypes = { "rust" } })
+  }
+})
