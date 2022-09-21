@@ -30,6 +30,18 @@ local function init()
   use {'andymass/vim-matchup', event = 'VimEnter'} -- operate on sets of matching text (if, else, etc)
   use 'glepnir/dashboard-nvim' -- eyecandy
 
+  use { -- eyecandy
+    'akinsho/bufferline.nvim',
+    tag = "v2.*",
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require("bufferline").setup {
+        options = {indicator = {style = "underline"}, diagnostics = "nvim_lsp"}
+        -- highlights = {indicator_selected = {fg = '', bg = '', bold = true}}
+      }
+    end
+  }
+
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |
   -- |--| |   __ _ _ _  __ _ _  _ __ _ __ _ ___    / / / __| ___ _ ___ _____ _ _     |
@@ -41,14 +53,8 @@ local function init()
   use 'nvim-treesitter/nvim-treesitter-textobjects'
   use {'nvim-lualine/lualine.nvim', config = statusline_config, requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
-  use {
-    'akinsho/bufferline.nvim',
-    tag = "v2.*",
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require("bufferline").setup {} end
-  }
   use {'tiagovla/scope.nvim', config = function() require('scope').setup({}) end} -- required for scoped tabs
-  use {'tiagovla/buffercd.nvim', config = function() require('buffercd').setup({}) end}
+  use {'tiagovla/buffercd.nvim', config = function() require('buffercd').setup({update_cwd = true}) end}
 
   -- use { 'arkav/lualine-lsp-progress' } lualine plugin for progress
   use {'ms-jpq/coq_nvim', branch = 'coq'}
@@ -117,17 +123,55 @@ local function init()
   }
   use "habamax/vim-godot" -- for godot
 
-  -------------------------------------------------------------------------------------------------------------------------
-  -- language/server
-  -------------------------------------------------------------------------------------------------------------------------
-
-  use {
+  use { -- view crate versions in virtual text
     'saecki/crates.nvim',
     tag = 'v0.2.1',
     requires = {'nvim-lua/plenary.nvim'},
     config = function() require('crates').setup({src = {coq = {enabled = true}}}) end
   }
 
+  use {'simrat39/symbols-outline.nvim', config = function() require('symbols-outline').setup() end}
+  -----------------------------------------------------------------------------------------------------------------------------
+  -- </language-server>
+  ------------------------------------------------------------------------------------------------------------------------------
+  -- |-   ___ _ _   
+  -- |-  / __(_) |_ 
+  -- |- | (_ | |  _|
+  -- |-  \___|_|\__|
+  -- |-             
+  -- |---------------------------------------------------------------------------------------------------------------------------
+
+  use 'tpope/vim-fugitive' -- git stuff, commit, etc
+
+  use { -- magit, but for vim
+    'TimUntersberger/neogit',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function()
+      require('neogit').setup {
+        integrations = {diffview = true},
+        sections = {unstaged = {folded = true}, unmerged = {folded = true}}
+      }
+    end
+  }
+
+  use {'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim'} -- view diffs!
+
+  use { -- 'tag = release' for stable neovim, main branch for nightly
+    'lewis6991/gitsigns.nvim',
+    branch = 'main',
+    requires = {'nvim-lua/plenary.nvim'},
+    config = function() require('gitsigns').setup() end
+  }
+
+  use {
+    'pwntester/octo.nvim',
+    requires = {'nvim-lua/plenary.nvim', 'nvim-telescope/telescope.nvim', 'kyazdani42/nvim-web-devicons'},
+    config = function() require"octo".setup() end
+  }
+
+  -----------------------------------------------------------------------------------------------------------------
+  -- </git>
+  -----------------------------------------------------------------------------------------------------------------
   use {'https://gitlab.com/yorickpeterse/nvim-dd', config = function() require("dd").setup({}) end}
 
   -- use 'vim-ctrlspace/vim-ctrlspace'
@@ -146,7 +190,6 @@ local function init()
       require("indent_blankline").setup {
         show_current_context = true,
         show_current_context_start = true,
-        show_end_of_line = true,
         space_char_blankline = " "
       }
     end
@@ -155,8 +198,16 @@ local function init()
   use {"npxbr/glow.nvim"} -- preview markdown
   -- You can alias plugin names
   use {'dracula/vim', as = 'dracula'} -- DRACULA!
-  use 'EdenEast/nightfox.nvim' -- NIGHTFOX!
-  use 'pineapplegiant/spaceduck' -- SPACEDUCK!
+  use {
+    'EdenEast/nightfox.nvim',
+    config = function()
+      require('nightfox').setup({
+        options = {styles = {comments = "italic,bold", functions = "italic", types = "italic,bold"}}
+      })
+    end
+  } -- NIGHTFOX! -- treesitter support
+  use {'rafamadriz/neon'} -- NEON! -- treesitter support
+  use 'pineapplegiant/spaceduck' -- SPACEDUCK! -- no treesitter support
   use 'moll/vim-bbye'
   use 'godlygeek/tabular' -- line up text
   use 'preservim/vim-markdown' -- syntax highlighting/matching
@@ -167,8 +218,11 @@ local function init()
   -- EZ OS commands 
   use "tpope/vim-eunuch" -- OS stuff (remove, move, chmod etc)
   use "junegunn/vim-easy-align" -- easy alignment of patterns ... another alignment tool? tabular
-  use 'tpope/vim-fugitive' -- git stuff, commit, etc
   use "jlanzarotta/bufexplorer" -- explore buffers!
+  use {
+    "sudormrfbin/cheatsheet.nvim",
+    requires = {{'nvim-telescope/telescope.nvim'}, {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+  }
 
   use {
     'windwp/nvim-autopairs',
@@ -214,7 +268,7 @@ local function init()
           project = {
             theme = "ivy",
             base_dirs = {
-              '~/projects/efinity/efinity/', '~/projects/parity/polkadot/', '~/projects/parity/substrate',
+              '~/projects/efinity/efinity/', '~/projects/parity/polkadot/', '~/projects/parity/substrate/',
               '~/projects/parallel/'
             }
           },
@@ -258,30 +312,11 @@ local function init()
     config = function() require("telescope").load_extension "toggleterm" end
   }
   ------------------------------------------------------------------------------------------------------------------
-
-  use { -- colors hex strings
+  -- </telescope>
+  ------------------------------------------------------------------------------------------------------------------
+  use { -- colors hex strings, eyecandy
     'norcalli/nvim-colorizer.lua',
     config = function() require'colorizer'.setup() end
-  }
-
-  use { -- magit, but for vim
-    'TimUntersberger/neogit',
-    requires = {'nvim-lua/plenary.nvim'},
-    config = function()
-      require('neogit').setup {
-        integrations = {diffview = true},
-        sections = {unstaged = {folded = true}, unmerged = {folded = true}}
-      }
-    end
-  }
-
-  use {'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim'} -- view diffs!
-
-  use { -- 'tag = release' for stable neovim, main branch for nightly
-    'lewis6991/gitsigns.nvim',
-    branch = 'main',
-    requires = {'nvim-lua/plenary.nvim'},
-    config = function() require('gitsigns').setup() end
   }
 
   use {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end} -- easy mappings

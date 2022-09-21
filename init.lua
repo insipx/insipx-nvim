@@ -13,8 +13,12 @@ g.bufExplorerShowTabBuffer = 1
 g.dashboard_default_executive = 'telescope'
 
 -- cmd 'colorscheme darkblue'
-cmd 'colorscheme spaceduck'
-cmd 'set background=light'
+
+vim.g.neon_style = "doom"
+vim.g.neon_italic_keyword = true
+vim.g.neon_italic_function = true
+cmd 'colorscheme terafox'
+-- cmd 'set background=light'
 opt.termguicolors = true
 opt.number = true
 opt.relativenumber = true
@@ -28,7 +32,7 @@ opt.encoding = 'utf-8'
 opt.showtabline = 1
 opt.list = true
 -- opt.listchars:append "eol:↴"
--- opt.listchars:append "space:⋅"
+opt.listchars:append "space:⋅"
 
 -- Disable some unused built-in Neovim plugins
 vim.g.loaded_man = false
@@ -48,7 +52,8 @@ map('i', 'jk', '<esc>') -- remap esc
 map('', '<leader>ic', '"+y') -- Copy to clipboard in normal, visual, select and operator modes
 
 -- Auto session plugin
-vim.g.auto_session_root_dir = "/home/insipx/projects/vim-sessions"
+-- vim.g.auto_session_root_dir = "/home/insipx/projects/vim-sessions"
+-- Godot
 vim.g.godot_executable = "/nix/store/h3drz27p8q64y560p893ghm3432pphsk-user-environment/bin/godot"
 
 -- Commands
@@ -60,8 +65,8 @@ cmd [[command! PackerClean packadd packer.nvim | lua require('plugins').clean()]
 cmd [[command! PackerCompile packadd packer.nvim | lua require('plugins').compile()]]
 
 -- formatters
+-- let g:python3_host_prog = "/nix/store/r1w11gr97qx6pddvxqglq8fxn92kgjxi-user-environment/bin/python3"
 cmd [[
-let g:python3_host_prog = "/nix/store/r1w11gr97qx6pddvxqglq8fxn92kgjxi-user-environment/bin/python3"
 let g:chadtree_settings = {
       \ 'theme.text_colour_set': 'nord'
       \ }
@@ -83,17 +88,13 @@ null_ls.setup({
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
         buffer = bufnr,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr })
-        end
+        callback = function() vim.lsp.buf.format({bufnr = bufnr}) end
       })
     end
   end,
   sources = {
     null_ls.builtins.formatting.lua_format.with({args = {"--tab-width", 2, "--indent-width", 2, "--column-limit", 120}}),
-    null_ls.builtins.formatting.dprint, 
-    null_ls.builtins.formatting.prettier, 
-    null_ls.builtins.completion.spell, 
-    null_ls.builtins.formatting.rustfmt.with({ disabled_filetypes = { "rust" } })
+    null_ls.builtins.formatting.dprint, null_ls.builtins.formatting.prettier, null_ls.builtins.completion.spell,
+    null_ls.builtins.formatting.rustfmt.with({disabled_filetypes = {"rust"}})
   }
 })
