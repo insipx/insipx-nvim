@@ -1,5 +1,3 @@
-require('statusline')
-
 local packer = nil
 local function init()
   if packer == nil then
@@ -51,7 +49,8 @@ local function init()
   -- |-------------------------------------------------------------------------------|
 
   use 'nvim-treesitter/nvim-treesitter-textobjects'
-  use {'nvim-lualine/lualine.nvim', config = statusline_config, requires = {'kyazdani42/nvim-web-devicons', opt = true}}
+  -- Config in plugin_config
+  use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
   use {'tiagovla/scope.nvim', config = function() require('scope').setup({}) end} -- required for scoped tabs
   use {'tiagovla/buffercd.nvim', config = function() require('buffercd').setup({update_cwd = true}) end}
@@ -140,7 +139,7 @@ local function init()
   -- |-  \___|_|\__|
   -- |-             
   -- |---------------------------------------------------------------------------------------------------------------------------
-
+  -- |---------------------------------------------------------------------------------------------------------------------------
   use 'tpope/vim-fugitive' -- git stuff, commit, etc
 
   use { -- magit, but for vim
@@ -176,8 +175,6 @@ local function init()
 
   -- use 'vim-ctrlspace/vim-ctrlspace'
 
-  use {"ms-jpq/chadtree", branch = "chad", run = "python3 -m chadtree deps"}
-
   use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -190,7 +187,8 @@ local function init()
       require("indent_blankline").setup {
         show_current_context = true,
         show_current_context_start = true,
-        space_char_blankline = " "
+        space_char_blankline = " ",
+	filetype_exclude = {'dashboard'},
       }
     end
   }
@@ -269,7 +267,6 @@ local function init()
             theme = "ivy",
             base_dirs = {
               '~/projects/efinity/efinity/', '~/projects/parity/polkadot/', '~/projects/parity/substrate/',
-              '~/projects/parallel/'
             }
           },
           file_browser = {theme = "ivy", hijack_netrw = true}
@@ -320,24 +317,6 @@ local function init()
   }
 
   use {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end} -- easy mappings
-
-  use {
-    "nvim-neorg/neorg",
-    config = function()
-      require('neorg').setup {
-        load = {
-          ["core.defaults"] = {}, -- Load all the default modules
-          ["core.norg.concealer"] = {}, -- Allows for use of icons
-          ["core.norg.dirman"] = { -- Manage your directories with Neorg
-            config = {workspaces = {my_workspace = "~/neorg"}}
-          },
-          ["core.integrations.telescope"] = {} -- Enable the telescope module
-        }
-      }
-    end,
-    requires = "nvim-lua/plenary.nvim",
-    requires = "nvim-neorg/neorg-telescope"
-  }
 end
 local plugins = setmetatable({}, {
   __index = function(_, key)
