@@ -1,11 +1,8 @@
-local lualine = require('lualine')
-
 function statusline_config()
   -- Eviline config for lualine
   -- Modified to include lsp_progress
   -- Author: shadmansaleh
   -- Credit: glepnir
-  local lualine = require('lualine')
 
   -- Color table for highlights
   -- stylua: ignore
@@ -229,5 +226,5 @@ function statusline_config()
 
   ins_right {function() return '▊' end, color = {fg = colors.blue}, padding = {left = 1}}
 
-  lualine.setup(config)
+  return config
 end

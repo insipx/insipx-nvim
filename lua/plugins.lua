@@ -1,5 +1,3 @@
-require("statusline")
-
 local packer = nil
 local function init()
   if packer == nil then
@@ -46,6 +44,17 @@ local function init()
     end
   }
 
+  -- Packer
+  use({
+    "folke/noice.nvim",
+    event = "VimEnter",
+    config = function() require("noice").setup() end,
+    requires = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
+    }
+  })
+
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |
   -- |--| |   __ _ _ _  __ _ _  _ __ _ __ _ ___    / / / __| ___ _ ___ _____ _ _     |
@@ -54,12 +63,9 @@ local function init()
   -- |--               |___/          |___/                                          |
   -- |-------------------------------------------------------------------------------|
 
-  use "nvim-treesitter/nvim-treesitter-textobjects"
-  use {
-    "nvim-lualine/lualine.nvim",
-    config = statusline_config,
-    requires = {"kyazdani42/nvim-web-devicons", opt = true}
-  }
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
+  -- Config in plugin_config
+  use {'nvim-lualine/lualine.nvim', requires = {'kyazdani42/nvim-web-devicons', opt = true}}
 
   use {"tiagovla/scope.nvim", config = function() require("scope").setup({}) end} -- required for scoped tabs
   use {"tiagovla/buffercd.nvim", config = function() require("buffercd").setup() end}
@@ -170,8 +176,9 @@ local function init()
   -- |-  \___|_|\__|
   -- |-             
   -- |---------------------------------------------------------------------------------------------------------------------------
+  -- |---------------------------------------------------------------------------------------------------------------------------
 
-  use "tpope/vim-fugitive" -- git stuff, commit, etc
+  use 'tpope/vim-fugitive' -- git stuff, commit, etc
 
   use { -- magit, but for vim
     "TimUntersberger/neogit",
@@ -204,8 +211,8 @@ local function init()
   -----------------------------------------------------------------------------------------------------------------
   -- </git>
   -----------------------------------------------------------------------------------------------------------------
-  use {"https://gitlab.com/yorickpeterse/nvim-dd", config = function() require("dd").setup({}) end}
 
+  use {'https://gitlab.com/yorickpeterse/nvim-dd', config = function() require("dd").setup({}) end}
   use {
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -218,7 +225,8 @@ local function init()
       require("indent_blankline").setup {
         show_current_context = true,
         show_current_context_start = true,
-        space_char_blankline = " "
+        space_char_blankline = " ",
+        filetype_exclude = {'dashboard'}
       }
     end
   }
@@ -361,29 +369,7 @@ local function init()
     config = function() require"colorizer".setup() end
   }
 
-  use {
-    "folke/which-key.nvim",
-    branch = "main",
-    config = function() require("which-key").setup {} end
-  } -- easy mappings
-
-  use {
-    "nvim-neorg/neorg",
-    config = function()
-      require("neorg").setup {
-        load = {
-          ["core.defaults"] = {}, -- Load all the default modules
-          ["core.norg.concealer"] = {}, -- Allows for use of icons
-          ["core.norg.dirman"] = { -- Manage your directories with Neorg
-            config = {workspaces = {my_workspace = "~/neorg"}}
-          },
-          ["core.integrations.telescope"] = {} -- Enable the telescope module
-        }
-      }
-    end,
-    requires = "nvim-lua/plenary.nvim",
-    requires = "nvim-neorg/neorg-telescope"
-  }
+  use {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end} -- easy mappings
 end
 local plugins = setmetatable({}, {
   __index = function(_, key)
