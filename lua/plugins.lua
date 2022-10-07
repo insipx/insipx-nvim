@@ -40,6 +40,17 @@ local function init()
     end
   }
 
+  -- Packer
+  use({
+    "folke/noice.nvim",
+    event = "VimEnter",
+    config = function() require("noice").setup() end,
+    requires = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
+    }
+  })
+
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |
   -- |--| |   __ _ _ _  __ _ _  _ __ _ __ _ ___    / / / __| ___ _ ___ _____ _ _     |
@@ -188,7 +199,7 @@ local function init()
         show_current_context = true,
         show_current_context_start = true,
         space_char_blankline = " ",
-	filetype_exclude = {'dashboard'},
+        filetype_exclude = {'dashboard'}
       }
     end
   }
@@ -265,9 +276,7 @@ local function init()
           },
           project = {
             theme = "ivy",
-            base_dirs = {
-              '~/projects/efinity/efinity/', '~/projects/parity/polkadot/', '~/projects/parity/substrate/',
-            }
+            base_dirs = {'~/projects/efinity/efinity/', '~/projects/parity/polkadot/', '~/projects/parity/substrate/'}
           },
           file_browser = {theme = "ivy", hijack_netrw = true}
         }
