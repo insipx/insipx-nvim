@@ -27,6 +27,7 @@ local function init()
   }
   use {'andymass/vim-matchup', event = 'VimEnter'} -- operate on sets of matching text (if, else, etc)
   use 'glepnir/dashboard-nvim' -- eyecandy
+  use 'github/copilot.vim'
 
   use { -- eyecandy
     'akinsho/bufferline.nvim',
@@ -40,16 +41,22 @@ local function init()
     end
   }
 
-  -- Packer
-  use({
-    "folke/noice.nvim",
-    event = "VimEnter",
-    config = function() require("noice").setup() end,
-    requires = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
-    }
+  use({ -- eyecandy
+    "Pocco81/true-zen.nvim",
+    config = function()
+      require("true-zen").setup {integrations = {kitty = {enabled = true}, lualine = {enabled = true}}}
+    end
   })
+  -- Packer
+  --  use({
+  --    "folke/noice.nvim",
+  --    event = "VimEnter",
+  --    config = function() require("noice").setup() end,
+  --    requires = {
+  --      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
+  --    }
+  --  })
 
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |

@@ -130,7 +130,13 @@ wk.register({
           "list diagnostics for currently open buffer"
         }
       },
-      s = {"<CMD>SymbolsOutline<CR>", "toggle symbols outline"}
+      s = {"<CMD>SymbolsOutline<CR>", "toggle symbols outline"},
+      c = {
+	name = "GitHub Copilot",
+	n = {"<Plug>(copilot-next)<CR>", "next suggestion"},
+	p = {"<Plug>(copilot-prev)<CR>", "previous suggestion"},
+	d = {"<Plug>(copilot-dismiss)<CR>", "dismiss suggestion"},
+      }
     },
     e = {
       name = "neoVIM options",
