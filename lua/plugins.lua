@@ -2,11 +2,7 @@ local packer = nil
 local function init()
   if packer == nil then
     packer = require "packer"
-    packer.init {
-      display = {open_fn = require("packer.util").float},
-      log = {level = "debug"},
-      autoremove = true
-    }
+    packer.init {display = {open_fn = require("packer.util").float}, log = {level = "debug"}, autoremove = true}
   end
 
   local use = packer.use
@@ -44,16 +40,15 @@ local function init()
     end
   }
 
-  -- Packer
-  use({
-    "folke/noice.nvim",
-    event = "VimEnter",
-    config = function() require("noice").setup() end,
-    requires = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
-    }
-  })
+  --  use({
+  --    "folke/noice.nvim",
+  --    event = "VimEnter",
+  --    config = function() require("noice").setup() end,
+  --    requires = {
+  --      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
+  --    }
+  --  })
 
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |
@@ -78,12 +73,6 @@ local function init()
   use "neovim/nvim-lspconfig"
 
   use "editorconfig/editorconfig-vim"
-  use {"williamboman/mason.nvim", config = function() require("mason").setup({}) end}
-
-  use {
-    "williamboman/mason-lspconfig.nvim",
-    config = function() require("mason-lspconfig").setup({ensure_installed = {"rust_analyzer"}}) end
-  }
 
   -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md
   -- General LSP for everything. Config in init.vim
@@ -92,13 +81,25 @@ local function init()
     config = function()
       local null_ls = require("null-ls")
       local sources = {
-        null_ls.builtins.formatting.dprint.with({filetypes = {"toml"}}),
+        null_ls.builtins.formatting.dprint.with({filetypes = {"toml"}}), -- bin: dprint
+        -- bin: lua-format, LuaFormatter, https://github.com/Koihik/LuaFormatter, nix: luaformatter
         null_ls.builtins.formatting.prettier, null_ls.builtins.formatting.lua_format.with({
           args = {
             "--indent-width", "2", "--tab-width", "2", "--column-limit", "100", "--no-use-tab",
             "--single-quote-to-double-quote", "--align-args"
           }
-        })
+        }), null_ls.builtins.code_actions.statix, -- bin: statix 
+        null_ls.builtins.formatting.nixfmt, -- bin: nixfmt
+        null_ls.builtins.diagnostics.deadnix, -- bin: deadnix
+        null_ls.builtins.formatting.cbfmt, -- bin: cbfmt (for formatting codeblocks in markdown)
+        null_ls.builtins.formatting.dotenv_linter, -- bin: dotenv-linter
+        null_ls.builtins.code_actions.gitsigns, -- bin: git
+        null_ls.builtins.diagnostics.codespell, -- bin: codespell
+        null_ls.builtins.diagnostics.gdlint, -- bin: gdlint
+        null_ls.builtins.formatting.gdformat, -- bin: gdformat
+        null_ls.builtins.diagnostics.gitlint, -- bin: gitlint
+        null_ls.builtins.diagnostics.yamllint -- bin: yamllint
+
       }
 
       null_ls.setup({sources = sources, on_attach = require("lsp-format").on_attach})
@@ -107,10 +108,7 @@ local function init()
 
   use {"j-hui/fidget.nvim", config = function() require("fidget").setup({}) end}
 
-  use({
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    config = function() require("lsp_lines").setup() end
-  })
+  use({"https://git.sr.ht/~whynothugo/lsp_lines.nvim", config = function() require("lsp_lines").setup() end})
 
   -- creates LSP diagnostics highlight groups for unsupported colorschemes
   use "folke/lsp-colors.nvim"
@@ -202,9 +200,7 @@ local function init()
 
   use {
     "pwntester/octo.nvim",
-    requires = {
-      "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "kyazdani42/nvim-web-devicons"
-    },
+    requires = {"nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim", "kyazdani42/nvim-web-devicons"},
     config = function() require"octo".setup() end
   }
 
@@ -257,23 +253,15 @@ local function init()
   use "jlanzarotta/bufexplorer" -- explore buffers!
   use {
     "sudormrfbin/cheatsheet.nvim",
-    requires = {
-      {"nvim-telescope/telescope.nvim"}, {"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}
-    }
+    requires = {{"nvim-telescope/telescope.nvim"}, {"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}
   }
 
   use {
     "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup({check_ts = true, enable_check_bracket_line = false})
-    end
+    config = function() require("nvim-autopairs").setup({check_ts = true, enable_check_bracket_line = false}) end
   }
 
-  use {
-    "akinsho/toggleterm.nvim",
-    tag = "*",
-    config = function() require("toggleterm").setup({}) end
-  }
+  use {"akinsho/toggleterm.nvim", tag = "*", config = function() require("toggleterm").setup({}) end}
 
   use {
     "phaazon/hop.nvim",
@@ -284,10 +272,7 @@ local function init()
     end
   }
 
-  use {
-    "GustavoKatel/sidebar.nvim",
-    config = function() require"sidebar-nvim".setup {side = "right"} end
-  }
+  use {"GustavoKatel/sidebar.nvim", config = function() require"sidebar-nvim".setup {side = "right"} end}
   ------------------------------------------------------------------------------------------------------------
   --  _____ ___ _    ___ ___  ___ ___  ___ ___ 
   -- |_   _| __| |  | __/ __|/ __/ _ \| _ \ __|
@@ -315,8 +300,8 @@ local function init()
           project = {
             theme = "ivy",
             base_dirs = {
-              "~/projects/efinity/efinity/", "~/projects/parity/polkadot/",
-              "~/projects/parity/substrate/", "~/projects/parallel/"
+              "~/projects/efinity/efinity/", "~/projects/parity/polkadot/", "~/projects/parity/substrate/",
+              "~/projects/parallel/"
             }
           },
           file_browser = {theme = "ivy", hijack_netrw = true}
@@ -330,10 +315,7 @@ local function init()
     config = function() require("telescope").load_extension("fzy_native") end
   }
 
-  use {
-    "nvim-telescope/telescope-project.nvim",
-    config = function() require("telescope").load_extension("project") end
-  }
+  use {"nvim-telescope/telescope-project.nvim", config = function() require("telescope").load_extension("project") end}
 
   use {
     "nvim-telescope/telescope-file-browser.nvim",
