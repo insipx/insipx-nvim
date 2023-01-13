@@ -5,7 +5,7 @@ if isModuleAvailable('which-key') then require('keybinds') end
 if isModuleAvailable('dashboard_config') then require('dashboard_config') end
 
 -- Godot
-vim.g.godot_executable = "/nix/store/h3drz27p8q64y560p893ghm3432pphsk-user-environment/bin/godot"
+vim.g.godot_executable = "/opt/homebrew/bin/godot"
 
 if isModuleAvailable('coq') then
   local coq = require('coq')

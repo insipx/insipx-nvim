@@ -39,7 +39,8 @@ wk.register({
       n = {"<cmd>cn<CR>", "go to the next error in window"},
       p = {"<cmd>cp<CR>", "go to previous error in window"},
       l = {function() telescope.quickfix(tele_themes.get_ivy({})) end, "list items in the quickfix list"},
-      h = {function() telescope.quickfixhistory(tele_themes.get_ivy({})) end, "search through quick fix history"}
+      h = {function() telescope.quickfixhistory(tele_themes.get_ivy({})) end, "search through quick fix history"},
+      s = { function() require('spectre').open_visual({select_word=true}) end, "search and replace with Spectre. WARNING: COMMIT BEFOREHAND" }
 
     },
     c = {name = "commands (OS)", n = {"<cmd>enew<cr>", "new file"}, r = {function() rename() end, "Rename file"}},
@@ -109,7 +110,7 @@ wk.register({
     },
     l = {
       name = "LSP",
-      r = {
+      R = {
         name = "Rust",
         h = {function() require'rust-tools'.hover_actions.hover_actions() end, "Trigger actions on hover"},
         r = {function() require'rust-tools'.runnables.runnables() end, "List runnables in buffer"},
@@ -119,9 +120,14 @@ wk.register({
         },
         p = {function() require'rust-tools'.parent_module.parent_module() end, "Go to the parent module"}
       },
+      T = {name = "toggles", l = {function() require("lsp_lines").toggle() end, "toggle lsp_lines virtual text"}},
       a = {function() vim.lsp.buf.code_action() end, "select code action"},
-      tl = {function() require("lsp_lines").toggle() end, "Toggle lsp_lines virtual text"},
       f = {function() vim.lsp.buf.format() end, "format buffer"},
+      d = {function() vim.lsp.buf.definition() end, "go to definition"},
+      D = {function() vim.lsp.buf.declaration() end, "go to declaration"},
+      i = {function() vim.lsp.buf.implementation() end, "go to implementation"},
+      t = {function() vim.lsp.buf.type_definition() end, "go to type definition"},
+      r = {function() telescope.lsp_references(tele_themes.get_ivy({})) end, "list references"},
       d = {
         name = "diagnostics",
         a = {function() telescope.diagnostics(tele_themes.get_ivy({})) end, "list diagnostics for all open buffers"},
@@ -132,10 +138,10 @@ wk.register({
       },
       s = {"<CMD>SymbolsOutline<CR>", "toggle symbols outline"},
       c = {
-	name = "GitHub Copilot",
-	n = {"<Plug>(copilot-next)<CR>", "next suggestion"},
-	p = {"<Plug>(copilot-prev)<CR>", "previous suggestion"},
-	d = {"<Plug>(copilot-dismiss)<CR>", "dismiss suggestion"},
+        name = "GitHub Copilot",
+        n = {"<Plug>(copilot-next)<CR>", "next suggestion"},
+        p = {"<Plug>(copilot-prev)<CR>", "previous suggestion"},
+        d = {"<Plug>(copilot-dismiss)<CR>", "dismiss suggestion"}
       }
     },
     e = {

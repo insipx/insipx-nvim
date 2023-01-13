@@ -41,15 +41,17 @@ local function init()
     end
   }
 
-  use({
-    "folke/noice.nvim",
-    event = "VimEnter",
-    config = function() require("noice").setup() end,
-    requires = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
-    }
-  })
+  use {"windwp/nvim-spectre", requires = "nvim-lua/plenary.nvim"}
+
+  -- use({
+  --  "folke/noice.nvim",
+  --  event = "VimEnter",
+  --  config = function() require("noice").setup() end,
+  --  requires = {
+  --    -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --    "MunifTanjim/nui.nvim", "rcarriga/nvim-notify"
+  --  }
+  -- })
 
   -- |-------------------------------------------------------------------------------|
   -- |-- _                                          __  ___                          |
@@ -194,7 +196,7 @@ local function init()
 
   use { -- 'tag = release' for stable neovim, main branch for nightly
     "lewis6991/gitsigns.nvim",
-    branch = "main",
+    branch = "release",
     requires = {"nvim-lua/plenary.nvim"},
     config = function() require("gitsigns").setup() end
   }

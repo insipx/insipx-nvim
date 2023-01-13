@@ -30,6 +30,11 @@ opt.list = true
 -- opt.listchars:append "eol:↴"
 opt.listchars:append "space:⋅"
 
+vim.g.coq_settings = {auto_start = "shut-up"}
+vim.g.chadtree_settings = {theme = {text_colour_set = "nord"}}
+g.mapleader = " "
+g.nocompatible = true
+
 -- Disable some unused built-in Neovim plugins
 vim.g.loaded_man = false
 vim.g.loaded_gzip = false
@@ -38,10 +43,6 @@ vim.g.loaded_tarPlugin = false
 vim.g.loaded_zipPlugin = false
 vim.g.loaded_2html_plugin = false
 vim.g.loaded_remote_plugins = false
-vim.g.coq_settings = {auto_start = "shut-up"}
-vim.g.chadtree_settings = {theme = {text_colour_set = "nord"}}
-g.mapleader = " "
-g.nocompatible = true
 
 ------------------------ MAPPINGS --------------------------------
 map("i", "jk", "<esc>") -- remap esc
