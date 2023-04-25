@@ -1,4 +1,4 @@
-function statusline_config()
+return function()
   -- Eviline config for lualine
   -- Modified to include lsp_progress
   -- Author: shadmansaleh
