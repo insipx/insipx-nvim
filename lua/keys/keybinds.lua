@@ -1,11 +1,11 @@
-require('utils')
-local wk = require('which-key')
-local neogit = require('neogit')
+require("utils")
+local wk = require("which-key")
+local neogit = require("neogit")
 local cmd = vim.cmd
 local opts = {noremap = true, silent = true}
-local telescope = require('telescope.builtin')
-local tele_themes = require('telescope.themes')
-local tele_ext = require('telescope').extensions
+local telescope = require("telescope.builtin")
+local tele_themes = require("telescope.themes")
+local tele_ext = require("telescope").extensions
 -- Normal Mode
 wk.register({
   ["<leader>"] = {
@@ -14,7 +14,9 @@ wk.register({
       name = "file",
       f = {function() telescope.find_files(tele_themes.get_ivy({})) end, "find file"},
       r = {function() telescope.old_files(tele_themes.get_ivy({})) end, "open recent file"},
-      b = {function() tele_ext.file_browser.file_browser(tele_themes.get_ivy({})) end, "browse files"},
+      b = {
+        function() tele_ext.file_browser.file_browser(tele_themes.get_ivy({})) end, "browse files"
+      },
       m = {function() telescope.marks(tele_themes.get_ivy({})) end, "find marks"},
       h = {function() telescope.oldfiles(tele_themes.get_ivy({})) end, "find history"},
       -- c = { "<cmd> Telescope frecency<cr>", 	"use frecency to find frequently-used files" },
@@ -25,11 +27,11 @@ wk.register({
       name = "buffer",
       B = {function() telescope.buffers(tele_themes.get_ivy({})) end, "list buffers"},
       e = {"<cmd>ToggleBufExplorer<CR>", "toggle buffer explorer"},
-      n = {'<cmd>bnext<cr>', "next buffer"},
-      p = {'<cmd>bprev<cr>', "previous buffer"},
+      n = {"<cmd>bnext<cr>", "next buffer"},
+      p = {"<cmd>bprev<cr>", "previous buffer"},
       P = {"<cmd>BufferLineTogglePin<CR>", "Pin buffer to start of bufferline"},
-      k = {'<cmd>Bdelete<cr>', "close buffer"},
-      a = {'<cmd>bufdo Bdelete<cr>', "delete all buffers"},
+      k = {"<cmd>Bdelete<cr>", "close buffer"},
+      a = {"<cmd>bufdo Bdelete<cr>", "delete all buffers"},
       t = {function() tele_ext.tele_tabby.list(tele_themes.get_ivy({})) end, "tab search"}
     },
     q = {
@@ -38,12 +40,25 @@ wk.register({
       c = {"<cmd>ccl<CR>", "close the quickfix window"},
       n = {"<cmd>cn<CR>", "go to the next error in window"},
       p = {"<cmd>cp<CR>", "go to previous error in window"},
-      l = {function() telescope.quickfix(tele_themes.get_ivy({})) end, "list items in the quickfix list"},
-      h = {function() telescope.quickfixhistory(tele_themes.get_ivy({})) end, "search through quick fix history"},
-      s = { function() require('spectre').open_visual({select_word=true}) end, "search and replace with Spectre. WARNING: COMMIT BEFOREHAND" }
+      l = {
+        function() telescope.quickfix(tele_themes.get_ivy({})) end,
+        "list items in the quickfix list"
+      },
+      h = {
+        function() telescope.quickfixhistory(tele_themes.get_ivy({})) end,
+        "search through quick fix history"
+      },
+      s = {
+        function() require("spectre").open_visual({select_word = true}) end,
+        "search and replace with Spectre. WARNING: COMMIT BEFOREHAND"
+      }
 
     },
-    c = {name = "commands (OS)", n = {"<cmd>enew<cr>", "new file"}, r = {function() rename() end, "Rename file"}},
+    c = {
+      name = "commands (OS)",
+      n = {"<cmd>enew<cr>", "new file"},
+      r = {function() rename() end, "Rename file"}
+    },
     r = {
       name = "godot",
       r = {"<cmd>GodotRun<cr>", "run the main scene"},
@@ -79,18 +94,18 @@ wk.register({
     },
     w = {
       name = "window",
-      h = {'<C-W>h', 'left'},
-      l = {'<C-W>l', 'right'},
-      j = {'<C-W>j', 'down'},
-      k = {'<C-W>k', 'up'},
-      v = {'<C-w>v', 'vertical split'},
-      s = {'<C-w>s', 'horizontal split'},
-      q = {'<cmd>q<cr>', 'close'},
-      ["="] = {'<C-w>=', 'balance windows'},
-      L = {'<C-w>>2', 'resize right'},
-      H = {'<C-w><2', 'resize left'},
-      J = {'<C-w>+2', 'resize down'},
-      K = {'<C-w>-2', 'resize up'}
+      h = {"<C-W>h", "left"},
+      l = {"<C-W>l", "right"},
+      j = {"<C-W>j", "down"},
+      k = {"<C-W>k", "up"},
+      v = {"<C-w>v", "vertical split"},
+      s = {"<C-w>s", "horizontal split"},
+      q = {"<cmd>q<cr>", "close"},
+      ["="] = {"<C-w>=", "balance windows"},
+      L = {"<C-w>>2", "resize right"},
+      H = {"<C-w><2", "resize left"},
+      J = {"<C-w>+2", "resize down"},
+      K = {"<C-w>-2", "resize up"}
     },
     t = {
       name = "terminal",
@@ -103,7 +118,7 @@ wk.register({
     i = {
       name = "insert",
       c = {"+y", "to clipboard"},
-      y = {'"+p', "from clipboard"},
+      y = {"\"+p", "from clipboard"},
       r = {"<cmd>Telescope registers<CR>", "from register"}
       -- unicode
       -- emoji
@@ -112,15 +127,24 @@ wk.register({
       name = "LSP",
       R = {
         name = "Rust",
-        h = {function() require'rust-tools'.hover_actions.hover_actions() end, "Trigger actions on hover"},
-        r = {function() require'rust-tools'.runnables.runnables() end, "List runnables in buffer"},
+        h = {
+          function() require"rust-tools".hover_actions.hover_actions() end,
+          "Trigger actions on hover"
+        },
+        r = {function() require"rust-tools".runnables.runnables() end, "List runnables in buffer"},
         c = {
-          function() require'rust-tools'.open_cargo_toml.open_cargo_toml() end,
+          function() require"rust-tools".open_cargo_toml.open_cargo_toml() end,
           "Open the Cargo.toml for the current buffer"
         },
-        p = {function() require'rust-tools'.parent_module.parent_module() end, "Go to the parent module"}
+        p = {
+          function() require"rust-tools".parent_module.parent_module() end,
+          "Go to the parent module"
+        }
       },
-      T = {name = "toggles", l = {function() require("lsp_lines").toggle() end, "toggle lsp_lines virtual text"}},
+      T = {
+        name = "toggles",
+        l = {function() require("lsp_lines").toggle() end, "toggle lsp_lines virtual text"}
+      },
       a = {function() vim.lsp.buf.code_action() end, "select code action"},
       f = {function() vim.lsp.buf.format() end, "format buffer"},
       d = {function() vim.lsp.buf.definition() end, "go to definition"},
@@ -130,7 +154,10 @@ wk.register({
       r = {function() telescope.lsp_references(tele_themes.get_ivy({})) end, "list references"},
       d = {
         name = "diagnostics",
-        a = {function() telescope.diagnostics(tele_themes.get_ivy({})) end, "list diagnostics for all open buffers"},
+        a = {
+          function() telescope.diagnostics(tele_themes.get_ivy({})) end,
+          "list diagnostics for all open buffers"
+        },
         c = {
           function() telescope.diagnostics({theme = tele_themes.get_ivy({}), bufnr = 0}) end,
           "list diagnostics for currently open buffer"
@@ -147,20 +174,25 @@ wk.register({
     e = {
       name = "neoVIM options",
       s = {"<CMD> source $MYVIMRC<CR>", "Source vim config"},
-      c = {function() telescope.commands(tele_themes.get_ivy({})) end, "List available commands from vim/plugins"}
+      c = {
+        function() telescope.commands(tele_themes.get_ivy({})) end,
+        "List available commands from vim/plugins"
+      }
 
     },
     ["<Tab>"] = {
       name = "workspace",
       n = {"<cmd>tabedit<cr>", "new workspace"},
       d = {"<cmd>tabclose<cr>", "close workspace"},
-      ["]"] = {"<C-PageDown>", "next workspace"},
-      ["["] = {"<C-PageUp>", "previous workspace"},
+      ["]"] = {"<cmd>tabn<cr>", "next workspace"},
+      ["["] = {"<cmd>tabp<cr>", "previous workspace"},
       ["<Right>"] = {":tabm +1<CR>", "move workspace to the right"},
       ["<Left>"] = {":tabm -1<CR>", "move workspace to the left"}
     },
     ["/"] = {function() telescope.live_grep(tele_themes.get_ivy({})) end, "search project"},
-    ["H"] = {function() telescope.search_history(tele_themes.get_ivy({})) end, "telescope search history"},
+    ["H"] = {
+      function() telescope.search_history(tele_themes.get_ivy({})) end, "telescope search history"
+    },
     ["?"] = {"<cmd>Cheatsheet<CR>", "time to CHEAT!!!"}
   },
   ["\\\\"] = {
@@ -181,7 +213,7 @@ wk.register({
     -- n = { "<cmd>FloatermNext<cr>",		  	"next Terminal" 	   }, 
     -- p = { "<cmd>FloatermPrev<cr>",		  	"previous Terminal" 	   },
   }
-}, {prefix = "<leader>", mode = 't', noremap = true, silent = true})
+}, {prefix = "<leader>", mode = "t", noremap = true, silent = true})
 
 -- Visual Mode
 wk.register({
@@ -192,18 +224,18 @@ wk.register({
     b = {":HopWordBC<CR>", "hop word backwards"},
     f = {":HopWordAC<CR>", "hop word forwards"}
   }
-}, {mode = 'v'})
+}, {mode = "v"})
 
 -- Vim move Keybindings
-vim.keymap.set('n', '<A-j>', ':MoveLine(1)<CR>', opts)
-vim.keymap.set('n', '<A-k>', ':MoveLine(-1)<CR>', opts)
-vim.keymap.set('v', '<A-j>', ':MoveBlock(1)<CR>', opts)
-vim.keymap.set('v', '<A-k>', ':MoveBlock(-1)<CR>', opts)
+vim.keymap.set("n", "<A-j>", ":MoveLine(1)<CR>", opts)
+vim.keymap.set("n", "<A-k>", ":MoveLine(-1)<CR>", opts)
+vim.keymap.set("v", "<A-j>", ":MoveBlock(1)<CR>", opts)
+vim.keymap.set("v", "<A-k>", ":MoveBlock(-1)<CR>", opts)
 
-vim.keymap.set('n', '<A-h>', ':MoveHChar(-1)<CR>', opts)
-vim.keymap.set('n', '<A-l>', ':MoveHChar(1)<CR>', opts)
-vim.keymap.set('v', '<A-h>', ':MoveHBlock(-1)<CR>', opts)
-vim.keymap.set('v', '<A-l>', ':MoveHBlock(1)<CR>', opts)
+vim.keymap.set("n", "<A-h>", ":MoveHChar(-1)<CR>", opts)
+vim.keymap.set("n", "<A-l>", ":MoveHChar(1)<CR>", opts)
+vim.keymap.set("v", "<A-h>", ":MoveHBlock(-1)<CR>", opts)
+vim.keymap.set("v", "<A-l>", ":MoveHBlock(1)<CR>", opts)
 
 cmd [[
   let g:dashboard_custom_shortcut={

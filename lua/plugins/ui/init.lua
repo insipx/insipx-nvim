@@ -1,10 +1,11 @@
-local lualine_opts = require('plugins.ui.lualine_opts')
+local lualine_opts = require("plugins.ui.lualine_opts")
 
 return {
-  { "nvim-lualine/lualine.nvim", dependencies = { "kyazdani42/nvim-web-devicons" }, config = function() require('lualine').setup(lualine_opts()) end },
-  "nvim-treesitter/nvim-treesitter-textobjects",
-
-  "kyazdani42/nvim-web-devicons", -- devicons :)
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = {"kyazdani42/nvim-web-devicons"},
+    config = function() require("lualine").setup(lualine_opts()) end
+  }, "nvim-treesitter/nvim-treesitter-textobjects", "kyazdani42/nvim-web-devicons", -- devicons :)
   -- You can alias plugin names
   {"dracula/vim", name = "dracula"}, -- DRACULA!
   {
@@ -19,18 +20,36 @@ return {
   "pineapplegiant/spaceduck", -- SPACDUCK!
   { -- eyecandy
     "akinsho/bufferline.nvim",
-    tag = "*",
+    version = "*",
     dependencies = "kyazdani42/nvim-web-devicons",
     config = function()
       require("bufferline").setup {
-        options = {indicator = {style = "underline"}, diagnostics = "nvim_lsp"}
+        options = {
+          mode = "buffers",
+          numbers = "ordinal",
+          indicator = {style = "underline"},
+          diagnostics = "nvim_lsp"
+        }
         -- highlights = {indicator_selected = {fg = '', bg = '', bold = true}}
       }
     end
-  },
-  { -- colors hex strings, eyecandy
+  }, { -- colors hex strings, eyecandy
     "norcalli/nvim-colorizer.lua",
     config = function() require"colorizer".setup() end
-  }
+  }, { -- indentation guides
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("indent_blankline").setup {
+        show_current_context = true,
+        show_current_context_start = true,
+        space_char_blankline = " ",
+        filetype_exclude = {"dashboard"}
+      }
+    end
+  },
+  {
+    "GustavoKatel/sidebar.nvim",
+    config = function() require"sidebar-nvim".setup {side = "right"} end
+  }, {"npxbr/glow.nvim"}, -- preview markdown with `Glow {FILE}.md`
+  {"echasnovski/mini.animate", version = "*"}
 }
-
