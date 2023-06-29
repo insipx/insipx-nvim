@@ -18,7 +18,7 @@ return {
           project = {
             theme = "ivy",
             base_dirs = {
-              "~/projects/parity/polkadot/", "~/projects/parity/substrate/", "~/projects/enjin/"
+              "~/projects"
             }
           },
           file_browser = {theme = "ivy", hijack_netrw = true}

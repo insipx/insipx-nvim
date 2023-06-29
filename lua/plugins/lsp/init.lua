@@ -4,7 +4,7 @@ return {
   {"ms-jpq/coq_nvim", branch = "coq"}, {"ms-jpq/coq.artifacts", branch = "artifacts"},
   {"ms-jpq/coq.thirdparty", branch = "3p"}, "neovim/nvim-lspconfig",
   {"jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }},
-  {"j-hui/fidget.nvim", config = function() require("fidget").setup() end}, -- nvim lsp progress
+  {"j-hui/fidget.nvim", tag = "legacy", config = function() require("fidget").setup() end}, -- nvim lsp progress
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function() require("lsp_lines").setup() end
