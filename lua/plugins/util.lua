@@ -9,7 +9,7 @@ return {
     end
   }, {
     "akinsho/toggleterm.nvim",
-    tag = "v2.6.0",
+    tag = "v2.7.1",
     config = function() require("toggleterm").setup({}) end
   }, "tpope/vim-eunuch", -- OS stuff (remove, move, chmod etc)
   "junegunn/vim-easy-align", -- easy alignment of patterns ... another alignment tool? tabular
@@ -50,5 +50,5 @@ return {
     config = function() require("todo-comments").setup() end
   }, {"andymass/vim-matchup", event = "VimEnter"},
   {"windwp/nvim-spectre", dependencies = "nvim-lua/plenary.nvim"}, -- Find and Replace
-  {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end} -- easy mappings
+  {"folke/which-key.nvim", branch = "stable", config = function() require("which-key").setup {} end} -- easy mappings
 }

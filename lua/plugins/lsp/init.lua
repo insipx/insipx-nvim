@@ -4,7 +4,7 @@ return {
   {"ms-jpq/coq_nvim", branch = "coq"}, {"ms-jpq/coq.artifacts", branch = "artifacts"},
   {"ms-jpq/coq.thirdparty", branch = "3p"}, "neovim/nvim-lspconfig",
   {"jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }},
-  {"j-hui/fidget.nvim", tag = "legacy", config = function() require("fidget").setup() end}, -- nvim lsp progress
+  {"j-hui/fidget.nvim", tag = "legacy", event = "LspAttach", config = function() require("fidget").setup() end}, -- nvim lsp progress
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function() require("lsp_lines").setup() end
@@ -28,13 +28,13 @@ return {
   {"simrat39/symbols-outline.nvim", config = function() require("symbols-outline").setup() end},
   {"lukas-reineke/lsp-format.nvim", config = function() require("lsp-format").setup {} end},
   "github/copilot.vim", {
-    "glepnir/lspsaga.nvim",
+  "glepnir/lspsaga.nvim",
     event = "LspAttach",
     config = function() require("lspsaga").setup({}) end,
     dependencies = {
-      {"kyazdani42/nvim-web-devicons"},
+      "kyazdani42/nvim-web-devicons",
       -- Please make sure you install markdown and markdown_inline parser
-      {"nvim-treesitter/nvim-treesitter"}
+      "nvim-treesitter/nvim-treesitter"
     }
   }
 }
