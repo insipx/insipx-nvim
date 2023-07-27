@@ -28,6 +28,7 @@ opt.encoding = "utf-8"
 opt.showtabline = 1
 opt.showmatch = true
 opt.list = true
+opt.signcolumn = "yes"
 -- opt.listchars:append "eol:↴"
 opt.listchars:append "space:⋅"
 
