@@ -1,7 +1,7 @@
 return {
   {
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.0",
+    tag = "0.1.2",
     dependencies = {"nvim-lua/plenary.nvim"},
     config = function()
       require("telescope").setup {
@@ -18,7 +18,7 @@ return {
           project = {
             theme = "ivy",
             base_dirs = {
-              "~/projects/parity/polkadot/", "~/projects/parity/substrate/", "~/projects/enjin/"
+              "~/projects"
             }
           },
           file_browser = {theme = "ivy", hijack_netrw = true}

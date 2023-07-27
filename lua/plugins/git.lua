@@ -13,7 +13,7 @@ return {
   {"sindrets/diffview.nvim", dependencies = "nvim-lua/plenary.nvim"}, -- view diffs!
   { -- 'tag = release' for stable neovim, main branch for nightly
     "lewis6991/gitsigns.nvim",
-    branch = "release",
+    branch = "main",
     dependencies = {"nvim-lua/plenary.nvim"},
     config = function() require("gitsigns").setup() end
   },
