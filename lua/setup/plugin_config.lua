@@ -1,23 +1,32 @@
 require "../utils"
+
 -- Configuration for lua plugins plugins
 -- Will only load if plugins have loaded
-if isModuleAvailable("nightfox") then vim.cmd("colorscheme terafox") end
+if isModuleAvailable("neon") then vim.cmd("colorscheme neon") end
 if isModuleAvailable("which-key") then require("../keys/keybinds") end
 if isModuleAvailable("dashboard_config") then require("../ui/dashboard_config") end
+
+local on_attach = function(client)
+  require("lsp-format").on_attach(client)
+
+  -- ... anything else ...
+end
 
 -- Godot
 vim.g.godot_executable = "/opt/homebrew/bin/godot"
 
-if isModuleAvailable("coq") then
+if isModuleAvailable("coq") and isModuleAvailable("lspconfig") then
   local coq = require("coq")
   local lspconfig = require("lspconfig")
   lspconfig.gdscript.setup(coq.lsp_ensure_capabilities())
-  lspconfig.tsserver.setup(coq.lsp_ensure_capabilities())
+  lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({on_attach = on_attach}))
+  lspconfig.gopls.setup(coq.lsp_ensure_capabilities({on_attach = on_attach}))
   vim.diagnostic.config({virtual_text = false, virtual_lines = {only_current_line = true}})
-
   -- Format on save
   -- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+end
 
+if isModuleAvailable("null-ls") then
   local null_ls = require("null-ls")
   local sources = {
     null_ls.builtins.formatting.dprint.with({filetypes = {"toml"}}), -- bin: dprint
@@ -39,9 +48,8 @@ if isModuleAvailable("coq") then
     null_ls.builtins.diagnostics.gitlint, -- bin: gitlint
     null_ls.builtins.diagnostics.yamllint, -- bin: yamllint
     null_ls.builtins.diagnostics.tidy, -- bin: tidy-html5
-    null_ls.builtins.diagnostics.tsc, -- bin: tsc
+    -- null_ls.builtins.diagnostics.tsc, -- bin: tsc
     null_ls.builtins.formatting.htmlbeautifier -- bin: htmlbeautifier
   }
-  null_ls.setup({sources = sources, on_attach = require("lsp-format").on_attach})
-
+  null_ls.setup({sources = sources, on_attach = on_attach})
 end

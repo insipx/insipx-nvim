@@ -5,11 +5,7 @@ return {
     crate_graph = {backend = "cgimage"}
   },
   server = {
-    on_attach = function(client)
-      require("lsp-format").on_attach(client)
-      -- client.server_capabilities.document_formatting = false
-      -- client.server_capabilities.document_range_formatting = false
-    end,
+    on_attach = function(client) require("lsp-format").on_attach(client) end,
     settings = {
       ["rust_analyzer"] = {
         procMacro = {enable = false},

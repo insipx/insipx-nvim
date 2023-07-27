@@ -1,29 +1,25 @@
 return {
-  "moll/vim-bbye", "godlygeek/tabular", -- line up text
-  "lewis6991/impatient.nvim", -- kill load time
-  "airblade/vim-rooter", { -- SCOPE only shows buffers which are a part of the current tab.
+  "moll/vim-bbye", "lewis6991/impatient.nvim", -- kill load time
+  "airblade/vim-rooter", "direnv/direnv.vim", -- nixos environments
+  "godlygeek/tabular", -- line up text
+  "junegunn/vim-easy-align", -- easy alignment of patterns ... another alignment tool? tabular
+  -- "jlanzarotta/bufexplorer", -- explore buffers!
+  "fedepujol/move.nvim", -- move lines and blocks
+  "luukvbaal/stabilize.nvim", -- stabilizes buffer content on window open/close vents
+  "yamatsum/nvim-cursorline", -- highlight words/lines on the cursor
+  "tpope/vim-eunuch", -- OS stuff (remove, move, chmod etc)
+  { -- SCOPE only shows buffers which are a part of the current tab.
     "tiagovla/scope.nvim",
     config = function()
       require("telescope").load_extension "scope"
       require("scope").setup {}
     end
-  }, {
-    "akinsho/toggleterm.nvim",
-    tag = "v2.6.0",
-    config = function() require("toggleterm").setup({}) end
-  }, "tpope/vim-eunuch", -- OS stuff (remove, move, chmod etc)
-  "junegunn/vim-easy-align", -- easy alignment of patterns ... another alignment tool? tabular
-  "jlanzarotta/bufexplorer", -- explore buffers!
-  "fedepujol/move.nvim", -- move lines and blocks
-  "luukvbaal/stabilize.nvim", -- stabilizes buffer content on window open/close vents
-  "yamatsum/nvim-cursorline", -- highlight words/lines on the cursor
-  {
+  }, {"akinsho/toggleterm.nvim", version = "2.7.0", config = true}, {
     "sudormrfbin/cheatsheet.nvim",
     dependencies = {
       {"nvim-telescope/telescope.nvim"}, {"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}
     }
-  }, "direnv/direnv.vim", -- nixos environments
-  {
+  }, {
     "windwp/nvim-autopairs",
     config = function()
       require("nvim-autopairs").setup({check_ts = true, enable_check_bracket_line = false})
@@ -50,5 +46,21 @@ return {
     config = function() require("todo-comments").setup() end
   }, {"andymass/vim-matchup", event = "VimEnter"},
   {"windwp/nvim-spectre", dependencies = "nvim-lua/plenary.nvim"}, -- Find and Replace
-  {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end} -- easy mappings
+  {"folke/which-key.nvim", branch = "main", config = function() require("which-key").setup {} end}, -- easy mappings
+  {
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    dependencies = {"nvim-lua/plenary.nvim"},
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {}, -- Loads default behaviour
+          ["core.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.dirman"] = { -- Manages Neorg workspaces
+            config = {workspaces = {notes = "~/notes/neorg"}}
+          }
+        }
+      }
+    end
+  }
 }
