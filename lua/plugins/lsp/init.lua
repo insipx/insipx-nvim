@@ -3,8 +3,12 @@ local rust_opts = require("plugins.lsp.rust_opts")
 return {
   {"ms-jpq/coq_nvim", branch = "coq"}, {"ms-jpq/coq.artifacts", branch = "artifacts"},
   {"ms-jpq/coq.thirdparty", branch = "3p"}, "neovim/nvim-lspconfig",
-  {"jose-elias-alvarez/null-ls.nvim", dependencies = { "nvim-lua/plenary.nvim" }},
-  {"j-hui/fidget.nvim", tag = "legacy", event = "LspAttach", config = function() require("fidget").setup() end}, -- nvim lsp progress
+  {"jose-elias-alvarez/null-ls.nvim", dependencies = {"nvim-lua/plenary.nvim"}}, {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    config = function() require("fidget").setup() end
+  }, -- nvim lsp progress
   {
     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     config = function() require("lsp_lines").setup() end
@@ -27,8 +31,9 @@ return {
   -- view symbols (functions, structs, etc.) from LSP for a buffer. A useful outline for jumping in long files.
   {"simrat39/symbols-outline.nvim", config = function() require("symbols-outline").setup() end},
   {"lukas-reineke/lsp-format.nvim", config = function() require("lsp-format").setup {} end},
-  "github/copilot.vim", {
-  "glepnir/lspsaga.nvim",
+  -- "github/copilot.vim", 
+  {
+    "glepnir/lspsaga.nvim",
     event = "LspAttach",
     config = function() require("lspsaga").setup({}) end,
     dependencies = {
