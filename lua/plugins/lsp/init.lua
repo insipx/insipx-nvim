@@ -1,8 +1,7 @@
-local rust_opts = require("plugins.lsp.rust_opts")
-
 return {
-  {"ms-jpq/coq_nvim", branch = "coq"}, {"ms-jpq/coq.artifacts", branch = "artifacts"},
-  {"ms-jpq/coq.thirdparty", branch = "3p"}, "neovim/nvim-lspconfig",
+  {"folke/neoconf.nvim"}, {"ms-jpq/coq_nvim", branch = "coq"},
+  {"ms-jpq/coq.artifacts", branch = "artifacts"}, {"ms-jpq/coq.thirdparty", branch = "3p"},
+  "neovim/nvim-lspconfig",
   {"jose-elias-alvarez/null-ls.nvim", dependencies = {"nvim-lua/plenary.nvim"}}, {
     "j-hui/fidget.nvim",
     tag = "legacy",
@@ -17,12 +16,16 @@ return {
     dependencies = {"kyazdani42/nvim-web-devicons"},
     config = function() require("trouble").setup() end
   }, {
-    "simrat39/rust-tools.nvim",
+    "https://gitlab.com/yorickpeterse/nvim-dd",
     config = function()
-      require("rust-tools").setup(require("coq").lsp_ensure_capabilities(rust_opts))
-    end,
-    dependencies = {"nvim-lua/plenary.nvim"}
-  }, { -- view crate versions in virtual text
+      require("dd").setup({
+        -- time to wait to defer diagnostics
+        timeout = 1000
+      })
+    end
+  }, -- defers diagnostics
+  {"simrat39/rust-tools.nvim", dependencies = {"nvim-lua/plenary.nvim"}},
+  { -- view crate versions in virtual text
     "saecki/crates.nvim",
     tag = "v0.3.0",
     dependencies = {"nvim-lua/plenary.nvim"},

@@ -15,9 +15,14 @@ end
 -- Godot
 vim.g.godot_executable = "/opt/homebrew/bin/godot"
 
-if isModuleAvailable("coq") and isModuleAvailable("lspconfig") then
+if isModuleAvailable("coq") and isModuleAvailable("lspconfig") and isModuleAvailable("rust-tools") then
   local coq = require("coq")
   local lspconfig = require("lspconfig")
+  local rust_tools = require("rust-tools")
+  local rust_opts = require("plugins.lsp.rust_opts")
+
+  require("neoconf").setup()
+  rust_tools.setup(require("coq").lsp_ensure_capabilities(rust_opts))
   lspconfig.gdscript.setup(coq.lsp_ensure_capabilities())
   lspconfig.tsserver.setup(coq.lsp_ensure_capabilities({on_attach = on_attach}))
   lspconfig.gopls.setup(coq.lsp_ensure_capabilities({on_attach = on_attach}))
