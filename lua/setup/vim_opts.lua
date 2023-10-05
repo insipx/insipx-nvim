@@ -41,3 +41,5 @@ g.loaded_tarPlugin = false
 g.loaded_zipPlugin = false
 g.loaded_2html_plugin = false
 g.loaded_remote_plugins = false
+g.himalaya_folder_picker = "telescope"
+-- g.himalaya_folder_picker_telescope_preview = 1

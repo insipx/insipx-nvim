@@ -38,13 +38,15 @@ return {
     config = function() require"colorizer".setup() end
   }, { -- indentation guides
     "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
     config = function()
-      require("indent_blankline").setup {
-        show_current_context = true,
-        show_current_context_start = true,
-        space_char_blankline = " ",
-        filetype_exclude = {"dashboard"}
-      }
+      ibl = require("ibl");
+      ibl.config = {
+        enabled = true,
+        scope = {enabled = true, show_start = true},
+        exclude = {filetypes = {"dashboard"}}
+      };
+      --  space_char_blankline = " ",
     end
   },
   {
